@@ -53,15 +53,28 @@ fn _p1(_input: &str) -> u32 {
 
     let (mut left_list, mut right_list) = get_lists(_input);
 
+
     left_list.sort_unstable();
     right_list.sort_unstable();
 
+
+    /*
     let mut total_distance = 0;
 
     for i in 0..left_list.len() {
         total_distance += left_list[i].abs_diff(right_list[i]);
     }
     total_distance
+    */
+
+
+    //benc 3
+    //remove for function
+
+    left_list.iter()
+        .zip(&right_list)
+        .map(|(l, r)| l.abs_diff(*r))
+        .sum()
 }
 
 fn _p2(_input: &str) -> u32 {
