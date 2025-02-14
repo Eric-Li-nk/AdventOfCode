@@ -1,0 +1,3 @@
+Import cas de test:
+    pas oublier le dernier retour ligne
+    Changer line separator à LF
