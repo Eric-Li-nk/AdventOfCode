@@ -1,19 +1,15 @@
-fn get_lists(_input: &str) -> (Vec<u32>, Vec<u32>)
-{
-    let mut lines = _input.lines();
+fn get_lists(input: &str) -> (Vec<u32>, Vec<u32>) {
+    let mut left_list = Vec::new();
+    let mut right_list = Vec::new();
 
-    let mut left_list = Vec::<u32>::new();
-    let mut right_list = Vec::<u32>::new();
-
-    let mut line = lines.next().unwrap_or("");
-
-    while !line.is_empty() {
-        let values:Vec<&str> = line.split("   ").collect();
-
-        left_list.push(values[0].parse().unwrap());
-        right_list.push(values[1].parse().unwrap());
-
-        line = lines.next().unwrap_or("");
+    for line in input.lines() {
+        if line.is_empty() {
+            break;
+        }
+        if let [left, right] = line.split_whitespace().collect::<Vec<_>>()[..] {
+            left_list.push(left.parse().unwrap());
+            right_list.push(right.parse().unwrap());
+        }
     }
 
     (left_list, right_list)
