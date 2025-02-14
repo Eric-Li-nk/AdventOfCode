@@ -11,3 +11,4 @@ harness = false
 [dependencies]
 criterion = { version =  "0.5", features = ["html_reports"] }
 log = "0.4.25"
+regex = "1.11.1"

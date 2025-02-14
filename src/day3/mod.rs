@@ -1,14 +1,16 @@
+use regex::Regex;
 
-fn _p1(_input: &str) -> usize {
-    let mut total = 0;
-    let mut index:Vec<_>;
-    for line in _input.lines() {
-        index = line.match_indices("mul(").map(|x| {x.0}).collect();
-        for i in index {
-            total += get_mult(i, line);
+fn _p1(_input: &str) -> u64 {
+    let re = Regex::new(r"mul\((\d+),(\d+)\)").unwrap();
+    let mut result: u64 = 0;
+
+    for cap in re.captures_iter(_input) {
+        if let (Ok(n1), Ok(n2)) = (cap[1].parse::<u64>(), cap[2].parse::<u64>()) {
+            result += n1 * n2;
         }
     }
-    total
+
+    result
 }
 
 fn _p2(_input: &str) -> usize {
@@ -67,7 +69,7 @@ fn get_mult(index: usize, line:&str) -> usize {
     digits[0].parse::<usize>().unwrap() * digits[1].parse::<usize>().unwrap()
 }
 
-pub fn p1() -> usize {
+pub fn p1() -> u64 {
     _p1(include_str!("d3.txt"))
 }
 
