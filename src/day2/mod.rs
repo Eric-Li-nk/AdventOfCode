@@ -17,6 +17,7 @@ fn _p1Tr(input: &str) -> u64{
 
                 if let Some(next_str) = test {
                     if let Ok(next_value) = next_str.parse::<u64>() {
+
                         if x.abs_diff(next_value) > 3 {
                             unsafe_folder += 1;
                             break;
@@ -40,8 +41,40 @@ fn _p1Tr(input: &str) -> u64{
                             }
                             is_positive = true;
                         }
+
+                        //bench
+                        /*
+                        match x.abs_diff(next_value) {
+                            d if d > 3 || d == 0 => {
+                                unsafe_folder += 1;
+                                break;
+                            }
+                            _ => match (x as i64 - next_value as i64).signum() {
+                                -1 => {
+                                    if is_positive && count != 1 {
+                                        unsafe_folder += 1;
+                                        break;
+                                    }
+                                    is_positive = false;
+                                }
+                                1 => {
+                                    if !is_positive && count != 1 {
+                                        unsafe_folder += 1;
+                                        break;
+                                    }
+                                    is_positive = true;
+                                }
+                                _ => {}
+                            },
+                        }
+                         */
+
+
                     }
                 }
+
+
+
             }
             current = test;
         }
