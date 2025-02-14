@@ -1,16 +1,50 @@
 fn get_lists(input: &str) -> (Vec<u32>, Vec<u32>) {
-    let mut left_list = Vec::new();
-    let mut right_list = Vec::new();
+    //let mut left_list = Vec::new();
+    //let mut right_list = Vec::new();
 
+    /*
+    Old version
+    while !line.is_empty() {
+        let values:Vec<&str> = line.split("   ").collect();
+
+        left_list.push(values[0].parse().unwrap());
+        right_list.push(values[1].parse().unwrap());
+
+        line = lines.next().unwrap_or("");
+    }
+     */
+
+    //bench1
+    /*
     for line in input.lines() {
         if line.is_empty() {
             break;
         }
+        //utilisation de split_whitespace() au lieux de lines.next().unwrap_or("")
         if let [left, right] = line.split_whitespace().collect::<Vec<_>>()[..] {
             left_list.push(left.parse().unwrap());
             right_list.push(right.parse().unwrap());
         }
     }
+
+    */
+
+    //bench2
+    let estimated_size = input.lines().take_while(|l| !l.is_empty()).count();
+    let mut left_list = Vec::with_capacity(estimated_size);
+    let mut right_list = Vec::with_capacity(estimated_size);
+
+    // utilisation de split_ascii_whitespace()
+    input.lines()
+        .take_while(|line| !line.is_empty())
+        .for_each(|line| {
+            let mut iter = line.split_ascii_whitespace();
+            // Suppression du Vec intermediaire
+            if let (Some(left), Some(right)) = (iter.next(), iter.next()) {
+                left_list.push(left.parse().unwrap());
+                right_list.push(right.parse().unwrap());
+            }
+        });
 
     (left_list, right_list)
 }
