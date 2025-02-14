@@ -1,6 +1,55 @@
 use std::str::FromStr;
+use std::ops::Add;
 
-fn _p1(_input: &str) -> usize {
+fn _p1Tr(input: &str) -> u64{
+    let mut unsafe_folder :u64 = 0;
+    //println!("lines : {}", input.lines().count());
+    for i in input.lines(){
+        let mut it = i.split_ascii_whitespace();
+        let mut current = it.next();
+        let mut is_positive: bool = false;
+        let mut count = 0;
+        while let Some(x_str) = current {
+            count += 1;
+            let test = it.next();
+            // Conversion `x_str` en u64
+            if let Ok(x) = x_str.parse::<u64>() {
+
+                if let Some(next_str) = test {
+                    if let Ok(next_value) = next_str.parse::<u64>() {
+                        if x.abs_diff(next_value) > 3 {
+                            unsafe_folder += 1;
+                            break;
+                        }
+                        else if x.abs_diff(next_value) == 0 {
+                            unsafe_folder += 1;
+                            break;
+                        }
+
+                        else if((x as i64 - next_value as i64) < 0){
+                            if(is_positive == true && count != 1){
+                                unsafe_folder += 1;
+                                break;
+                            }
+                            is_positive = false;
+                        }
+                        else if (x as i64 - next_value as i64) > 0 {
+                            if(!is_positive && count != 1){
+                                unsafe_folder += 1;
+                                break;
+                            }
+                            is_positive = true;
+                        }
+                    }
+                }
+            }
+            current = test;
+        }
+
+    }
+    return input.lines().count() as u64 - unsafe_folder;
+}
+fn _p1(_input: &str) -> u32 {
 
     let mut safe_report = 0;
 
@@ -11,7 +60,7 @@ fn _p1(_input: &str) -> usize {
         let mut safe = true;
 
         if values.is_sorted() {
-            for i in 1..values.len() {
+            for i  in 1..values.len() {
                 let difference = values[i] - values[i - 1];
                 if difference == 0 || difference > 3 { safe = false ; break; }
             }
@@ -89,8 +138,9 @@ fn validate(values:&Vec<u8>) -> bool {
     false
 }
 
-pub fn p1() -> usize {
-    _p1(include_str!("d2.txt"))
+pub fn p1() -> u32 {
+    //_p1(include_str!("d2.txt"))
+    _p1Tr(include_str!("d2.txt")) as u32
 }
 
 pub fn p2() -> usize {
